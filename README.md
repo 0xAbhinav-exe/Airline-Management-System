@@ -66,7 +66,7 @@ Each entity maps to corresponding tables in the MySQL database.
 1. **Clone the Repository:**
 
    ```bash
-   git clone https://github.com/Sakshi20006/airline-management-system.git
+   git clone https://gh repo clone 0xAbhinav-exe/Airline-Management-System
    ```
 
 2. **Open the Project:**
