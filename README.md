@@ -99,6 +99,89 @@ All operations interact with the MySQL database in real-time for dynamic data ha
 
 ---
 
+
+### Step 1: Ensure MySQL Database is Set Up
+
+Your application relies on a MySQL database. You need to make sure the database is running and the schema is imported.
+
+1.  **Start your MySQL Server**: Ensure your MySQL database server (e.g., MySQL Community Server, XAMPP, WAMP) is running.
+2.  **Create the Database and Import Schema**:
+    *   Open a MySQL client (like MySQL Workbench, phpMyAdmin, or the MySQL command-line client).
+    *   Execute the SQL script provided in your project: `AirlineManagementSystem [SQL].sql`. This script will:
+        *   Create the `airlinemanagementsystem1` database if it doesn't exist.
+        *   Use that database.
+        *   Create the `login`, `passenger`, `flight`, `flight_schedule`, `reservation`, and `cancel` tables.
+        *   Insert initial data into the `login` and `flight` tables.
+
+    A quick way to do this from the command line (if MySQL is in your PATH and you have `root` access without a password, or adjust as needed):
+    ```bash
+    mysql -u root -p < "C:\Users\adams\OneDrive\Documents\Project2\AirlineManagementSystem [SQL].sql"
+    ```
+    (You'll be prompted for your MySQL root password).
+
+### Step 2: Verify MySQL JDBC Driver
+
+Your Java application needs the MySQL Connector/J JDBC driver to communicate with the MySQL database.
+
+1.  **Check `lib` directory**: Ensure that the `mysql-connector-java-8.0.28.jar` file (or a similar version) is located in your project's `lib` directory.
+    *   You should have a folder structure like: `Project2/lib/mysql-connector-java-8.0.28.jar`
+    *   If it's missing, you'll need to download it from the official MySQL website and place it in the `lib` folder.
+
+### Step 3: Open Command Prompt/Terminal
+
+You'll need to use the command line to compile and run your Java application.
+
+1.  **Open Command Prompt (Windows)**: Search for "cmd" in the Start menu and open it.
+2.  **Navigate to your Project Directory**: Use the `cd` command to change your current directory to your project's root folder.
+    ```bash
+    cd C:\Users\adams\OneDrive\Documents\Project2
+    ```
+    (Make sure you are in the directory that contains all your `.java` files and the `lib` folder).
+
+### Step 4: Compile the Java Source Code
+
+Now you will compile all the `.java` files into `.class` files. It's crucial to include the JDBC driver in the classpath.
+
+1.  **Execute the Compile Command**:
+    ```bash
+    javac -cp ".;lib/*" *.java
+    ```
+    *   `javac`: The Java compiler command.
+    *   `-cp ".;lib/*"`: This is the classpath argument.
+        *   `.`: Tells the compiler to look for `.java` files and `.class` files in the current directory.
+        *   `lib/*`: Tells the compiler to include all JAR files (`.jar`) found directly inside the `lib` directory. This is how your program finds the MySQL JDBC driver.
+    *   `*.java`: Tells the compiler to compile all files ending with `.java` in the current directory.
+
+2.  **Check for Compilation Errors**: If there are any syntax errors in your Java code, the compiler will display them. You'll need to fix these errors before proceeding. If compilation is successful, you will see no output.
+
+### Step 5: Run the Program
+
+Once compiled, you can run the application. Again, the JDBC driver needs to be in the classpath during runtime.
+
+1.  **Execute the Run Command**: Your main class (the one with the `main` method that starts the application) is `Loginpage`.
+    ```bash
+    java -cp ".;lib/*" Loginpage
+    ```
+    *   `java`: The Java Virtual Machine (JVM) command to run a Java application.
+    *   `-cp ".;lib/*"`: The classpath for runtime, identical to the compile command. This ensures the JVM can find all your application's classes and the necessary JDBC driver.
+    *   `Loginpage`: The fully qualified name of the class containing the `main` method you want to execute (do not include `.java` or `.class`).
+
+2.  **Interact with the Application**: The `Loginpage` window should appear. You can now interact with your Airline Management System.
+    *   The default login credentials are `username: admin`, `password: admin` (as set in `AirlineManagementSystem [SQL].sql`).
+
+### Troubleshooting Common Issues:
+
+*   **"Database driver not found" or `ClassNotFoundException`**:
+    *   Double-check that `mysql-connector-java-8.0.28.jar` is indeed in your `lib` directory.
+    *   Ensure your `javac` and `java` commands precisely use `lib/*` for the classpath.
+*   **`SQLException: Could not connect to database`**:
+    *   Verify your MySQL server is running.
+    *   Check the database name, username (`root`), and password (`akiraded`) in `Conn.java` and ensure they match your MySQL server configuration.
+    *   Make sure the database `airlinemanagementsystem1` has been created and the schema imported (refer to Step 1).
+*   **`java.lang.NullPointerException` related to `Conn.s`**: This likely means the database connection failed, and the `s` (Statement) object was not initialized. Check the `SQLException` details preceding the NullPointerException in your console output.
+
+---
+
 ## 🗃️ Database Schema
 
 The database consists of several tables, including:
